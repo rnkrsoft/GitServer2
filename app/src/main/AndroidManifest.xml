@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rnkrsoft.android.gitserver">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".GitServerApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+
+                <!-- 表示activity作为一个什么动作启动，android.intent.action.MAIN表示作为主activity启动 -->
+                <action android:name="android.intent.action.MAIN" />
+                <!-- 这是action元素的额外类别信息，android.intent.category.LAUNCHER表示这个activity为当前应用程序优先级最高的Activity。 -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--
+        android:exported 表示是否允许除了当前程序之外的其他程序访问这个服务
+        android:enabled 表示是否启用这个服务
+        android:permission 权限声明
+        android:process 是否需要在单独的进程中运行,当设置为android:process=”:remote”时，
+                                代表Service在单独的进程中运行。注意“：”很重要，它的意思是指要在当前进程名称前面附加上当前的包名，
+                                所以“remote”和”:remote”不是同一个意思，前者的进程名称为：remote，而后者的进程名称为：
+                                 App-packageName:remote
+        android:isolatedProcess 设置 true 意味着，服务会在一个特殊的进程下运行，这个进程与系统其他进程分开且没有自己的权限。
+                                与其通信的唯一途径是通过服务的API(bind and start)。
+        -->
+        <service
+            android:name=".background.service.GitBackgroundService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.rnkrsoft.android.gitserver.background.service.GitServer.START" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
