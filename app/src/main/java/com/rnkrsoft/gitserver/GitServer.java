@@ -1,18 +1,16 @@
 package com.rnkrsoft.gitserver;
 
-import com.rnkrsoft.gitserver.exception.RepositoryCreateFailureException;
 import com.rnkrsoft.gitserver.exception.UninitializedGitServerException;
-import com.rnkrsoft.gitserver.role.Role;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
-import java.util.List;
+import com.rnkrsoft.gitserver.service.PermissionService;
+import com.rnkrsoft.gitserver.service.RepositoryService;
+import com.rnkrsoft.gitserver.service.RoleService;
+import com.rnkrsoft.gitserver.service.UserService;
 
 /**
  * Git服务
  */
-public interface GitServer extends UserService, PermissionService{
+public interface GitServer extends UserService, PermissionService, RoleService, RepositoryService {
     /**
      * 获取仓库根目录
      * @return 仓库根目录
@@ -40,65 +38,4 @@ public interface GitServer extends UserService, PermissionService{
      * 启动Git服务
      */
     GitServer startup() throws UninitializedGitServerException;
-
-    /**
-     * 创建一个git仓库
-     *
-     * @param name 仓库名称
-     * @throws RepositoryCreateFailureException 创建失败时抛出异常
-     */
-    Git createRepository(String name) throws RepositoryCreateFailureException;
-
-    /**
-     * 打开一个已经存在的git仓库
-     *
-     * @param name 仓库名称
-     * @return git操作对象
-     * @throws RepositoryNotFoundException 打开时如果仓库不存在则抛出异常
-     */
-    Git openRepository(String name) throws RepositoryNotFoundException;
-
-    /**
-     * 重命名一个存在的git仓库
-     *
-     * @param oldName 旧的仓库名称
-     * @param newName 新的仓库名称
-     * @throws RepositoryNotFoundException 如果仓库不存在则抛出异常
-     */
-    void renameRepository(String oldName, String newName) throws RepositoryNotFoundException;
-
-    /**
-     * 删除一个存在的git仓库
-     *
-     * @param name 仓库名称
-     * @throws RepositoryNotFoundException 如果仓库不存在则抛出异常
-     */
-    void deleteRepository(String name) throws RepositoryNotFoundException;
-
-    /**
-     * 增加角色
-     * @param roleName 角色名称
-     * @param roleDesc 角色描述
-     */
-    void addRole(String roleName, String roleDesc);
-
-    /**
-     * 删除角色
-     * @param roleName 角色名称
-     */
-    void deleteRole(String roleName);
-
-    /**
-     * 修改角色
-     * @param roleName 角色名称
-     * @param roleDesc 角色描述
-     * @param valid 是否无效
-     */
-    void updateRole(String roleName, String roleDesc, boolean valid);
-
-    /**
-     * 列出所有的角色
-     * @return 角色列表
-     */
-    List<Role> listRoles();
 }

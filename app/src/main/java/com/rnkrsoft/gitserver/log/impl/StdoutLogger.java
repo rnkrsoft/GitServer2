@@ -1,9 +1,9 @@
 package com.rnkrsoft.gitserver.log.impl;
 
 import com.rnkrsoft.gitserver.log.AbstractLogger;
-import com.rnkrsoft.gitserver.log.DateUtils;
-import com.rnkrsoft.gitserver.log.ExceptionUtils;
-import com.rnkrsoft.gitserver.log.MessageFormatter;
+import com.rnkrsoft.gitserver.utils.DateUtils;
+import com.rnkrsoft.gitserver.utils.ExceptionUtils;
+import com.rnkrsoft.gitserver.utils.MessageFormatter;
 
 public class StdoutLogger extends AbstractLogger {
     public static final String FORMAT = "{} {} - {}";

@@ -45,7 +45,7 @@ public class GitServerApplication extends Application {
             @Override
             public InputStream load(String fileName) throws IOException{
                 char[] chars = fileName.toCharArray();
-                return GitServerApplication.this.getAssets().open("webroot" + (chars[0] == '/' ? "" : "/") + fileName, MODE_PRIVATE);
+                return GitServerApplication.this.getAssets().open(WEB_ROOT + (chars[0] == '/' ? "" : "/") + fileName, MODE_PRIVATE);
             }
         }).build());
         gitServer.grantPermission("demo", "test1", "push");

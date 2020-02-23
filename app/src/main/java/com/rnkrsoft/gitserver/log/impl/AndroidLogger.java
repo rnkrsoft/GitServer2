@@ -2,7 +2,7 @@ package com.rnkrsoft.gitserver.log.impl;
 
 
 import com.rnkrsoft.gitserver.log.AbstractLogger;
-import com.rnkrsoft.gitserver.log.MessageFormatter;
+import com.rnkrsoft.gitserver.utils.MessageFormatter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

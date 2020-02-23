@@ -2,21 +2,25 @@ package com.rnkrsoft.gitserver;
 
 import com.rnkrsoft.gitserver.command.GitCommandFactory;
 import com.rnkrsoft.gitserver.command.SendMessageCommand;
+import com.rnkrsoft.gitserver.entity.PermissionEntity;
+import com.rnkrsoft.gitserver.entity.RoleEntity;
+import com.rnkrsoft.gitserver.entity.UserEntity;
 import com.rnkrsoft.gitserver.exception.RepositoryCreateFailureException;
 import com.rnkrsoft.gitserver.exception.UninitializedGitServerException;
 import com.rnkrsoft.gitserver.http.mgr.FileServer;
 import com.rnkrsoft.gitserver.log.Logger;
 import com.rnkrsoft.gitserver.log.LoggerFactory;
-import com.rnkrsoft.gitserver.permission.FilePermissionService;
-import com.rnkrsoft.gitserver.role.Role;
-import com.rnkrsoft.gitserver.user.FileUserService;
+import com.rnkrsoft.gitserver.service.impl.FilePermissionService;
+import com.rnkrsoft.gitserver.service.PermissionService;
+import com.rnkrsoft.gitserver.service.UserService;
+import com.rnkrsoft.gitserver.service.impl.FileUserService;
 
+import com.rnkrsoft.gitserver.utils.PasswordUtils;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.keyprovider.AbstractGeneratorHostKeyProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.api.Git;
@@ -198,7 +202,7 @@ class GitServerImpl implements GitServer {
     }
 
     @Override
-    public List<Role> listRoles() {
+    public List<RoleEntity> listRoles() {
         return null;
     }
 
@@ -218,7 +222,7 @@ class GitServerImpl implements GitServer {
     }
 
     @Override
-    public List<User> listUsers() {
+    public List<UserEntity> listUsers() {
         return this.userService.listUsers();
     }
 
@@ -248,7 +252,7 @@ class GitServerImpl implements GitServer {
     }
 
     @Override
-    public List<Permission> listPermissions(String repositoryName) {
+    public List<PermissionEntity> listPermissions(String repositoryName) {
         return permissionService.listPermissions(repositoryName);
     }
 
