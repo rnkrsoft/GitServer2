@@ -10,6 +10,10 @@ import com.rnkrsoft.gitserver.GitServer;
 import com.rnkrsoft.gitserver.GitServerFactory;
 import com.rnkrsoft.gitserver.GitServerSetting;
 import com.rnkrsoft.gitserver.exception.UninitializedGitServerException;
+import com.rnkrsoft.gitserver.http.loader.FileLoader;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class GitServerApplication extends Application {
@@ -37,7 +41,13 @@ public class GitServerApplication extends Application {
         int sshPort = prefs.getInt(PrefsConstants.SSH_PORT.getKey(), Integer.valueOf(PrefsConstants.SSH_PORT.getDefaultValue()));
         int httpPort = prefs.getInt(PrefsConstants.HTTP_PORT.getKey(), Integer.valueOf(PrefsConstants.HTTP_PORT.getDefaultValue()));
         Log.i(TAG, "Git Server Repositories Home is '" + repoHome + "'");
-        GitServer gitServer = GitServerFactory.getInstance().init(GitServerSetting.builder().repositoriesHome(repoHome).sshPort(sshPort).httpPort(httpPort).build());
+        GitServer gitServer = GitServerFactory.getInstance().init(GitServerSetting.builder().repositoriesHome(repoHome).sshPort(sshPort).httpPort(httpPort).fileLoader(new FileLoader() {
+            @Override
+            public InputStream load(String fileName) throws IOException{
+                char[] chars = fileName.toCharArray();
+                return GitServerApplication.this.getAssets().open("webroot" + (chars[0] == '/' ? "" : "/") + fileName, MODE_PRIVATE);
+            }
+        }).build());
         gitServer.grantPermission("demo", "test1", "push");
         gitServer.grantPermission("demo", "test", "*");
         try {
