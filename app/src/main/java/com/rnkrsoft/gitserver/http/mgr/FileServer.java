@@ -23,24 +23,7 @@ public class FileServer extends NanoHTTPD {
     }
     //当接受到连接时会调用此方法
     public Response serve(IHTTPSession session){
-        if(REQUEST_ROOT.equals(session.getUri())||session.getUri().equals("")){
-            return responseRootPage(session);
-        }
         return responseFile(session);
-    }
-    //对于请求根目录的，返回分享的文件列表
-    public Response responseRootPage(IHTTPSession session){
-        StringBuilder builder = new StringBuilder();
-        builder.append("<!DOCTYPER html><html><body>");
-        builder.append("<ol>");
-        for(int i = 0 , len = 5; i < len ; i++){
-                //文件及下载文件的链接，定义了一个文件类，这里使用getPath方法获得路径，使用getName方法获得文件名
-                builder.append("<li> <a href=\"111\">11111</a></li>");
-        }
-        builder.append("</ol>");
-        builder.append("</body></html>\n");
-        //回送应答
-        return Response.newFixedLengthResponse(String.valueOf(builder));
     }
     //对于请求文件的，返回下载的文件
     public Response responseFile(IHTTPSession session){
